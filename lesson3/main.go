@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -26,43 +27,48 @@ func main() {
 				stop = false
 				break
 			}
-			actions := strings.Split(expression, " ")
+			actions := strings.Split(expression, " ") // разбиваем по пробелам введенный текст на символы и вносим их в слайс
 			if len(actions) > 3 || len(actions) == 0 || len(actions) == 2 {
-				fmt.Println("Incorrectly entered data")
+				fmt.Println("incorrect expression")
 			} else if len(actions) == 1 {
 				if strings.HasSuffix(actions[0], "!")  {
 					actions[0] = strings.Trim(actions[0], "!")
-					number1, errFirstNum := strconv.Atoi(actions[0])
-					if errFirstNum == nil {
-						fmt.Println(expression, "=", factorial(number1))
+					number1, err := strconv.Atoi(actions[0])
+					if err == nil {
+						fmt.Printf("Result: %v\n", factorial(number1))
 						continue
 					} else {
-						fmt.Println("Invalid types of number")
+						fmt.Println("the number must be an integer")
 						continue
 					}
 				} else {
-					fmt.Println("Incorrectly entered data")
+					fmt.Println("incorrect expression")
 				}
-			} else {			
-				number1, errFirstNum := strconv.ParseFloat(actions[0], 64)
-				number2, errSecondNum := strconv.ParseFloat(actions[2], 64)
-				if errFirstNum == nil && errSecondNum == nil{
-					if (actions[1] == "+") || (actions[1] == "-") || (actions[1] == "*") || (actions[1] == "^") {
-						fmt.Printf("%s = %.2f\n", expression, calculator(number1, number2, actions[1]))
-					} else if actions[1] == "/" {
-						if number2 != 0 {
-							fmt.Printf("%s = %.2f\n", expression, calculator(number1, number2, actions[1]))
-						} else {
-							fmt.Println("Division by zero")
-						}
-					} else {
-						fmt.Println("Invalid types of operation")
-					}
-				} else {
-					fmt.Println("Invalid types of number(-s)")
+			} else {		
+				number1, err := strconv.ParseFloat(actions[0], 64)
+				if err != nil {
+					fmt.Println("incorrect data")
+					continue 
 				}
-			}	
-		}
+				number2, err := strconv.ParseFloat(actions[2], 64)
+				if err != nil {
+					fmt.Println("incorrect data")
+					continue
+				}
+
+				op, err := operation(actions[1])
+				if err != nil {
+					fmt.Printf("incorrect data: %s\n", err)
+					continue 
+				}
+				res, err := calculator(number1, number2, op)
+				if err != nil {
+					fmt.Println(err)
+					continue 
+				}
+				fmt.Printf("Result: %.2f\n", res)
+			}
+		}	
 	}
 }
 // func simpleNumbers (N int) {
@@ -81,21 +87,32 @@ func main() {
 // 	}
 // }
 
-func calculator(firstNum, secondNum float64, operation string) float64 {
+func calculator(firstNum, secondNum float64, operation string) (float64, error) {
+	var result float64
 	switch operation {
 	case "+": 
-		return firstNum + secondNum
+		result = firstNum + secondNum
 	case "-": 
-		return firstNum - secondNum
+		result = firstNum - secondNum
 	case "*": 
-		return firstNum * secondNum
+		result = firstNum * secondNum
 	case "/": 
-		return firstNum / secondNum
+		divideResult, err := divide(firstNum, secondNum); 
+		if err != nil {
+			return 0, fmt.Errorf("could not divide: %w", err)
+		}
+		result = divideResult
 	case "^": 
-		return math.Pow(firstNum, secondNum)
-	default:
-		return 0
+		result = math.Pow(firstNum, secondNum)
 	}
+	return result, nil
+}
+
+func divide(firstNum, secondNum float64) (float64, error) {
+	if secondNum == 0 {
+		return 0, errors.New("division by zero")
+	}
+	return firstNum / secondNum, nil
 }
 
 func factorial(number int) int {
@@ -104,4 +121,11 @@ func factorial(number int) int {
 		result *= i
 	}
 	return result
+}
+
+func operation(op string) (string, error) {
+	if op == "+" || op == "-" || op == "*" || op == "/" {
+		return op, nil
+	}
+	return "", errors.New("incorrect operation")
 }
