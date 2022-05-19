@@ -1,3 +1,5 @@
-module go_level_one
+module Go_level_one
 
 go 1.18
+
+require github.com/kelseyhightower/envconfig v1.4.0

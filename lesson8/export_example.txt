@@ -1,0 +1,6 @@
+export MYAPP_PORT=5432
+export MYAPP_DB_URL=postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable
+export MYAPP_USERS="Roman,Andrey,Dima"
+export MYAPP_SENTRY_URL=http://sentry:9000
+export MYAPP_KAFKA_BROKER="kafka:9092"
+export MYAPP_ID=testid
