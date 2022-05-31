@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Go_level_one/lesson8/conf"
 	"fmt"
 	"log"
 	"os"
@@ -9,9 +10,8 @@ import (
 )
 
 func main() {
-    
-	var s Specification
-    SetEnv()
+	var s conf.Specification
+	conf.SetEnv()
 	err := envconfig.Process("myapp", &s)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -19,8 +19,8 @@ func main() {
 
     os.Setenv("MYAPP_SENTRY_URL", "http://sentry:9000")
 
-	format := "Port: %v\nDb_url: %v\nSentry_url: %s\nId: %s\n"
-	_, err = fmt.Printf(format, s.Db_url, s.Port, s.Sentry_url, s.Id)
+	format := "Port: %v\nDb url: %v\nSentry url: %s\nId: %s\n"
+	_, err = fmt.Printf(format, s.DbUrl, s.Port, s.SentryUrl, s.Id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	fmt.Println("Kafka broker:")
-	for k, v := range s.Kafka_broker {
+	for k, v := range s.KafkaBroker {
 		fmt.Printf("  %s: %d\n", k, v)
 	}
 }
