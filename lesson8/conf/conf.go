@@ -1,30 +1,37 @@
 package conf
 
 import (
+	"encoding/json"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type Specification struct {
-	Port         int `default:"5432"`
+	Port        int `default: "4321"`
 	DbUrl       string
-	Users        []string
+	Users       []string
 	SentryUrl   string
-	KafkaBroker map[string]int `default:"kafka:9092"`
-	Id           string
+	KafkaBroker int `default: "9092"`
+	Id          string
 }
 
-func SetEnv() (users, port, dbUrl, sentryUrl, kafkaBroker, id string) {
-	os.Setenv("MYAPP_USERS", "Roman,Andrey,Dima")
-	os.Setenv("MYAPP_PORT", "5432")
-	os.Setenv("MYAPP_DBURL", "postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable")
-	os.Setenv("MYAPP_SENTRYURL", "http://sentry:9000")
-	os.Setenv("MYAPP_KAFKABROKER", "kafka:9092")
-	os.Setenv("MYAPP_ID", "testid")
-	users = os.Getenv("MYAPP_USERS")
-	port = os.Getenv("MYAPP_PORT")
-	dbUrl = os.Getenv("MYAPP_DB_URL")
-	sentryUrl = os.Getenv("MYAPP_SENTRY_URL")
-	kafkaBroker = os.Getenv("MYAPP_KAFKA_BROKER")
-	id = os.Getenv("MYAPP_ID")
-	return 
+func SetEnv() error {
+	conf, err := os.ReadFile("../conf/conf.json")
+	if err != nil {
+		return err
+	}
+
+	var configuration Specification
+	if err := json.Unmarshal(conf, &configuration); err != nil {
+		return err
+	}
+
+	os.Setenv("MYAPP_USERS", strings.Join(configuration.Users, ","))
+	os.Setenv("MYAPP_PORT", strconv.Itoa(configuration.Port))
+	os.Setenv("MYAPP_DBURL", configuration.DbUrl)
+	os.Setenv("MYAPP_SENTRYURL", configuration.SentryUrl)
+	os.Setenv("MYAPP_KAFKABROKER", strconv.Itoa(configuration.KafkaBroker))
+	os.Setenv("MYAPP_ID", configuration.Id)
+	return nil
 }
