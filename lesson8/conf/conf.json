@@ -1,8 +1,8 @@
 {
-  "Port": 5432,
-  "DbUrl": "postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable",
-  "Users": ["Roman", "Andrey", "Dima"],
-  "SentryUrl": "http://sentry:9000",
-  "KafkaBroker": 9093,
-  "Id": "testID"
+  "port": "5432",
+  "dbUrl": "postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable",
+  "users": ["Roman", "Andrey", "Dima"],
+  "sentryUrl": "http://sentry:9000",
+  "kafkaBroker": "9093",
+  "id": "testID"
 }

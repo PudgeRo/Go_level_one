@@ -2,36 +2,42 @@ package conf
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
 type Specification struct {
-	Port        int `default: "4321"`
-	DbUrl       string
-	Users       []string
-	SentryUrl   string
-	KafkaBroker int `default: "9092"`
-	Id          string
+	Port        string   `json:"port"`
+	DbUrl       string   `json:"dbUrl"`
+	Users       []string `json:"users"`
+	SentryUrl   string   `json:"sentryUrl"`
+	KafkaBroker string   `json:"kafkaBroker"`
+	Id          string   `json:"id"`
 }
 
-func SetEnv() error {
-	conf, err := os.ReadFile("../conf/conf.json")
+func SetEnv() (error, *Specification) {
+	confJson, err := os.Open("../conf/conf.json")
 	if err != nil {
-		return err
+		return fmt.Errorf("Cannot open file: %v", err), nil
 	}
-
-	var configuration Specification
-	if err := json.Unmarshal(conf, &configuration); err != nil {
-		return err
+	defer func() error {
+		err := confJson.Close()
+		if err != nil {
+			return fmt.Errorf("Cannot close file: %v", err)
+		}
+		return nil
+	}()
+	config := Specification{}
+	err = json.NewDecoder(confJson).Decode(&config)
+	if err != nil {
+		return fmt.Errorf("Cannot decode json file into structure: %v", err), nil
 	}
-
-	os.Setenv("MYAPP_USERS", strings.Join(configuration.Users, ","))
-	os.Setenv("MYAPP_PORT", strconv.Itoa(configuration.Port))
-	os.Setenv("MYAPP_DBURL", configuration.DbUrl)
-	os.Setenv("MYAPP_SENTRYURL", configuration.SentryUrl)
-	os.Setenv("MYAPP_KAFKABROKER", strconv.Itoa(configuration.KafkaBroker))
-	os.Setenv("MYAPP_ID", configuration.Id)
-	return nil
+	os.Setenv("MYAPP_USERS", strings.Join(config.Users, ","))
+	os.Setenv("MYAPP_PORT", config.Port)
+	os.Setenv("MYAPP_DBURL", config.DbUrl)
+	os.Setenv("MYAPP_SENTRYURL", config.SentryUrl)
+	os.Setenv("MYAPP_KAFKABROKER", config.KafkaBroker)
+	os.Setenv("MYAPP_ID", config.Id)
+	return nil, &config
 }

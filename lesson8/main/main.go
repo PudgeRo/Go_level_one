@@ -14,24 +14,24 @@ func main() {
 		}
 	}()
 
-	var s conf.Specification
-	if err := conf.SetEnv(); err != nil {
+	err, config := conf.SetEnv()
+	if err != nil {
 		panic(err)
 	}
 
-	err := envconfig.Process("myapp", &s)
+	err = envconfig.Process("myapp", &config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	format := "Port: %v\nDb url: %v\nSentry url: %s\nId: %s\nKafka broker: %v\n"
-	_, err = fmt.Printf(format, s.DbUrl, s.Port, s.SentryUrl, s.Id, s.KafkaBroker)
+	format := "Port: %v\nDb url: %v\nSentry url: %v\nId: %s\nKafka broker: %v\n"
+	_, err = fmt.Printf(format, config.DbUrl, config.Port, config.SentryUrl, config.Id, config.KafkaBroker)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	fmt.Println("Users:")
-	for _, u := range s.Users {
-		fmt.Printf("  %s\n", u)
+	for _, u := range config.Users {
+		fmt.Printf("  %v\n", u)
 	}
 }
