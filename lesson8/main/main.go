@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	err = envconfig.Process("myapp", &config)
+	err = envconfig.Process("myapp", config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
