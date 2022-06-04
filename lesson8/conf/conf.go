@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 )
 
 type Specification struct {
@@ -33,11 +32,5 @@ func SetEnv() (error, *Specification) {
 	if err != nil {
 		return fmt.Errorf("Cannot decode json file into structure: %v", err), nil
 	}
-	os.Setenv("MYAPP_USERS", strings.Join(config.Users, ","))
-	os.Setenv("MYAPP_PORT", config.Port)
-	os.Setenv("MYAPP_DBURL", config.DbUrl)
-	os.Setenv("MYAPP_SENTRYURL", config.SentryUrl)
-	os.Setenv("MYAPP_KAFKABROKER", config.KafkaBroker)
-	os.Setenv("MYAPP_ID", config.Id)
 	return nil, &config
 }
