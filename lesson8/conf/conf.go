@@ -1,36 +1,38 @@
 package conf
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/kelseyhightower/envconfig"
 	"os"
+	"strconv"
 )
 
 type Specification struct {
-	Port        string   `json:"port"`
-	DbUrl       string   `json:"dbUrl"`
-	Users       []string `json:"users"`
-	SentryUrl   string   `json:"sentryUrl"`
-	KafkaBroker string   `json:"kafkaBroker"`
-	Id          string   `json:"id"`
+	Port        int64          `default:"5432" required:"true"`
+	DbUrl       string         `default:"postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable" required:"true"`
+	Users       []string       `default:"" required:"false"`
+	SentryUrl   string         `required:"true"`
+	KafkaBroker map[string]int `required:"false"`
+	Id          string         `required:"false"`
 }
 
 func SetEnv() (error, *Specification) {
-	confJson, err := os.Open("../conf/conf.json")
-	if err != nil {
-		return fmt.Errorf("Cannot open file: %v", err), nil
+	os.Setenv("MYAPP_USERS", "Roman,Andrey,Dima")
+	os.Setenv("MYAPP_PORT", "5432")
+	if _, err := strconv.Atoi(os.Getenv("MYAPP_PORT")); err != nil {
+		return fmt.Errorf("Port must be type of int"), nil
 	}
-	defer func() error {
-		err := confJson.Close()
-		if err != nil {
-			return fmt.Errorf("Cannot close file: %v", err)
-		}
-		return nil
-	}()
-	config := Specification{}
-	err = json.NewDecoder(confJson).Decode(&config)
-	if err != nil {
-		return fmt.Errorf("Cannot decode json file into structure: %v", err), nil
+	os.Setenv("MYAPP_DBRL", "postgres://db-user:db-password@petstore-db:5432/petstore?sslmode=disable")
+	os.Setenv("MYAPP_SENTRYURL", "http://sentry:9000")
+	if os.Getenv("MYAPP_SENTRYURL") == "" {
+		return fmt.Errorf("Sentry url cannot be empty"), nil
 	}
-	return nil, &config
+	os.Setenv("MYAPP_KAFKABROKER", "kafka:9092")
+	os.Setenv("MYAPP_ID", "testid")
+	conf := Specification{}
+	err := envconfig.Process("myapp", &conf)
+	if err != nil {
+		return fmt.Errorf("can't process the config: %w", err), nil
+	}
+	return nil, &conf
 }
