@@ -3,7 +3,6 @@ package main
 import (
 	"Go_level_one/lesson8/conf"
 	"fmt"
-	"github.com/kelseyhightower/envconfig"
 	"log"
 )
 
@@ -19,19 +18,19 @@ func main() {
 		panic(err)
 	}
 
-	err = envconfig.Process("myapp", config)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	format := "Port: %v\nDb url: %v\nSentry url: %v\nId: %s\nKafka broker: %v\n"
-	_, err = fmt.Printf(format, config.DbUrl, config.Port, config.SentryUrl, config.Id, config.KafkaBroker)
+	format := "Port: %v\nDb url: %v\nSentry url: %v\nId: %s\n"
+	_, err = fmt.Printf(format, config.DbUrl, config.Port, config.SentryUrl, config.Id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	fmt.Println("Users:")
 	for _, u := range config.Users {
+		fmt.Printf("  %v\n", u)
+	}
+
+	fmt.Println("Kafka broker:")
+	for _, u := range config.KafkaBroker {
 		fmt.Printf("  %v\n", u)
 	}
 }
