@@ -1,4 +1,4 @@
-package main
+package sort
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ func main() {
 		number, _ := strconv.Atoi(number)
 		slice = append(slice, number)
 	}
-	slice = sortByInsert(slice)
+	slice = SortByInsert(slice)
 	fmt.Printf("Sorted array: %v\n", slice)
 
 	// t1 := []int{7, 4, 3, 8, 5, 2, 0, 1}
@@ -31,15 +31,29 @@ func main() {
 	// fmt.Println(sortByInsert(t4))
 }
 
-func sortByInsert(slice []int) []int {
+func SortByInsert(slice []int) []int {
 	var x int
 	for i := 1; i < len(slice); i++ {
 		x = slice[i]
-		for (i > 0 && slice[i-1] > x) {
-			slice[i] = slice[i - 1]
+		for i > 0 && slice[i-1] > x {
+			slice[i] = slice[i-1]
 			i--
 		}
-		slice[i] = x 
+		slice[i] = x
 	}
 	return slice
+}
+
+func BubleSort(arr []int) []int {
+	swapped := true
+	for swapped {
+		swapped = false
+		for i := 0; i < len(arr)-1; i++ {
+			if arr[i] > arr[i+1] {
+				arr[i], arr[i+1] = arr[i+1], arr[i]
+				swapped = true
+			}
+		}
+	}
+	return arr
 }
