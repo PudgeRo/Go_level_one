@@ -3,6 +3,7 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kelseyhightower/envconfig"
 	"os"
 )
 
@@ -31,6 +32,10 @@ func SetEnv() (error, *Specification) {
 	err = json.NewDecoder(confJson).Decode(&config)
 	if err != nil {
 		return fmt.Errorf("Cannot decode json file into structure: %v", err), nil
+	}
+	err = envconfig.Process("myapp", config)
+	if err != nil {
+		return err, nil
 	}
 	return nil, &config
 }
