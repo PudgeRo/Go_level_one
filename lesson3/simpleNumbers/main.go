@@ -1,7 +1,8 @@
-package main
+package simpleNumbers
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -9,10 +10,9 @@ import (
 	"strings"
 )
 
-func main() {
-	// Simple number from 0 to N
-	// simpleNumbers(19)
+var NumMoreThanOne error = errors.New("number must be more than 1")
 
+func main() {
 	// Calculator
 	stop := true
 	for stop {
@@ -30,7 +30,7 @@ func main() {
 			if len(actions) > 3 || len(actions) == 0 || len(actions) == 2 {
 				fmt.Println("Incorrectly entered data")
 			} else if len(actions) == 1 {
-				if strings.HasSuffix(actions[0], "!")  {
+				if strings.HasSuffix(actions[0], "!") {
 					actions[0] = strings.Trim(actions[0], "!")
 					number1, errFirstNum := strconv.Atoi(actions[0])
 					if errFirstNum == nil {
@@ -43,10 +43,10 @@ func main() {
 				} else {
 					fmt.Println("Incorrectly entered data")
 				}
-			} else {			
+			} else {
 				number1, errFirstNum := strconv.ParseFloat(actions[0], 64)
 				number2, errSecondNum := strconv.ParseFloat(actions[2], 64)
-				if errFirstNum == nil && errSecondNum == nil{
+				if errFirstNum == nil && errSecondNum == nil {
 					if (actions[1] == "+") || (actions[1] == "-") || (actions[1] == "*") || (actions[1] == "^") {
 						fmt.Printf("%s = %.2f\n", expression, calculator(number1, number2, actions[1]))
 					} else if actions[1] == "/" {
@@ -61,37 +61,44 @@ func main() {
 				} else {
 					fmt.Println("Invalid types of number(-s)")
 				}
-			}	
+			}
 		}
 	}
 }
-// func simpleNumbers (N int) {
-// 	var isSimple bool
-// 	for i := 1; i <= N; i++ {
-// 		isSimple = true
-// 		for j := 2; j < i; j++ {
-// 			if i % j == 0 {
-// 				isSimple = false
-// 				break
-// 			}
-// 		}
-// 		if isSimple {
-// 			fmt.Printf("%d- простое число\n", i)
-// 		}
-// 	}
-// }
+
+// SimpleNumbers defines all simple numbers to N
+func SimpleNumbers(n int) ([]int, error) {
+	result := make([]int, 0, n)
+	var isSimple bool
+	if n <= 1 {
+		return nil, NumMoreThanOne
+	}
+	for i := 2; i <= n; i++ {
+		isSimple = true
+		for j := 2; j < i; j++ {
+			if i%j == 0 {
+				isSimple = false
+				break
+			}
+		}
+		if isSimple {
+			result = append(result, i)
+		}
+	}
+	return result, nil
+}
 
 func calculator(firstNum, secondNum float64, operation string) float64 {
 	switch operation {
-	case "+": 
+	case "+":
 		return firstNum + secondNum
-	case "-": 
+	case "-":
 		return firstNum - secondNum
-	case "*": 
+	case "*":
 		return firstNum * secondNum
-	case "/": 
+	case "/":
 		return firstNum / secondNum
-	case "^": 
+	case "^":
 		return math.Pow(firstNum, secondNum)
 	default:
 		return 0

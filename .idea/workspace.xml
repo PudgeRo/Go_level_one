@@ -4,16 +4,32 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="f88372b6-4322-45bf-bf5b-a9fcdbf107c0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Go_level_one.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Go_level_one.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lesson9/conf/conf.go" beforeDir="false" afterPath="$PROJECT_DIR$/lesson9/conf/conf.go" afterDir="false" />
+=======
+    <list default="true" id="56160bf2-d389-4513-9cff-bbeff385e4a7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson5/tests/fibb_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/lesson5/tests/fibb_test.go" afterDir="false" />
+>>>>>>> homework10
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+>>>>>>> homework10
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -24,13 +40,21 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectId" id="2A9os95UXW4KmX3bJGN4dHC3wUx" />
+=======
+  <component name="ProjectId" id="2A7vtagMxEf1rxWI4oV020bUknl" />
+>>>>>>> homework10
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
+=======
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+>>>>>>> homework10
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -40,12 +64,38 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Go_level_two" />
+=======
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lesson3/simpleNumbers" />
+      <recent name="$PROJECT_DIR$/lesson4/tests" />
+      <recent name="$PROJECT_DIR$/lesson4/main" />
+    </key>
+>>>>>>> homework10
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+>>>>>>> homework10
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
