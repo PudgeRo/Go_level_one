@@ -8,18 +8,22 @@ import (
 
 func TestFibonacci(t *testing.T) {
 	testCase := []struct {
+		name   string
 		input  int
 		output int
 	}{
 		{
+			name:   "case with six",
 			input:  6,
 			output: 8,
 		},
 		{
+			name:   "case with two",
 			input:  2,
 			output: 1,
 		},
 		{
+			name:   "case with zero",
 			input:  0,
 			output: 0,
 		},
@@ -35,8 +39,10 @@ func TestFibonacci(t *testing.T) {
 	}
 
 	for _, cse := range testCase {
-		res, _ := fibb.Fibonacci(cse.input)
-		assert.Equal(t, cse.output, res)
+		t.Run(cse.name, func(t *testing.T) {
+			res, _ := fibb.Fibonacci(cse.input)
+			assert.Equal(t, cse.output, res)
+		})
 	}
 
 	for _, cse := range testCaseWithErrors {
